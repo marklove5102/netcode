@@ -800,6 +800,8 @@ int netcode_socket_receive_packet( struct netcode_socket_t * socket, struct netc
 #endif // #if NETCODE_PLATFORM == NETCODE_PLATFORM_WINDOWS
     
     struct sockaddr_storage sockaddr_from;
+    memset( &sockaddr_from, 0, sizeof(sockaddr_from) );
+
     socklen_t from_length = sizeof( sockaddr_from );
 
     int result = recvfrom( socket->handle, (char*) packet_data, max_packet_size, 0, (struct sockaddr*) &sockaddr_from, &from_length );
@@ -4677,7 +4679,8 @@ void netcode_server_receive_packets( struct netcode_server_t * server )
         while ( 1 )
         {
             struct netcode_address_t from;
-            
+            memset( &from, 0, sizeof(from) );
+
             uint8_t packet_data[NETCODE_MAX_PACKET_BYTES];
             
             int packet_bytes = 0;
